@@ -17,9 +17,9 @@ let moveCounter = 0;
 
 let isInCompareCells = false; // this flag is used to fix the bug that occurs when the user clicks the cards too fast
 
-let c = 0;
-let t;
-let timer_is_on = 0;
+let timeCounter = 0;
+let timer;
+let isTimerOn = 0;
 
 let duration = 0;
 
@@ -78,8 +78,8 @@ function deckClicked(event) {
         if (!isInCompareCells) {
             const clickedElement = event.target;
             if (clickedElement.nodeName === 'LI') {
-                if (!timer_is_on) {
-                    startCount();
+                if (!isTimerOn) {
+                    startTimer();
                 }
 
                 moveCounter++;
@@ -191,26 +191,26 @@ function reset() {
     moveElement.innerHTML = moveCounter;
 }
 
-function timedCount() {
-    document.getElementById("timer").innerHTML = c + " sec";
-    c = c + 1;
-    t = setTimeout(timedCount, 1000);
+function logTime() {
+    document.getElementById("timer").innerHTML = timeCounter + " sec";
+    timeCounter = timeCounter + 1;
+    timer = setTimeout(logTime, 1000);
 }
 
-function startCount() {
-    if (!timer_is_on) {
+function startTimer() {
+    if (!isTimerOn) {
         duration = 0;
-        timer_is_on = 1;
-        timedCount();
+        isTimerOn = 1;
+        logTime();
     }
 }
 
-function stopCount() {
-    if (timer_is_on) {
-        duration = c;
-        c = 0;
-        clearTimeout(t);
-        timer_is_on = 0;
+function stopTimer() {
+    if (isTimerOn) {
+        duration = timeCounter;
+        timeCounter = 0;
+        clearTimeout(timer);
+        isTimerOn = 0;
     }
 }
 
