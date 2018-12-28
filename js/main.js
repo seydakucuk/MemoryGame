@@ -110,7 +110,7 @@ function compareOpenCells() {
             else {
                 const isGameEnd = checkGameEnd();
                 if (isGameEnd) {
-                    stopCount();
+                    stopTimer();
                     deck.removeEventListener("click", deckClicked);
                     let congratulationsMsg = `Congratulations!
 You finished the game in ${duration} seconds. Would you like to play again?`;
@@ -172,7 +172,7 @@ function checkGameEnd() {
 }
 
 function reset() {
-    stopCount();
+    stopTimer();
     starsElement.innerHTML = "";
     createStars();
     deck.innerText = "";
