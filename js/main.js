@@ -25,8 +25,6 @@ let duration = 0;
 
 const listItemParentClassName = 'card';
 const cardOpenClassName = "card open show";
-let isGameActive = true;
-
 
 function createStars() {
     const fragment = document.createDocumentFragment();
@@ -74,29 +72,27 @@ function createDeck() {
 }
 
 function deckClicked(event) {
-    if (isGameActive) {
-        if (!isInCompareCells) {
-            const clickedElement = event.target;
-            if (clickedElement.nodeName === 'LI') {
-                if (!isTimerOn) {
-                    startTimer();
-                }
+    if (!isInCompareCells) {
+        const clickedElement = event.target;
+        if (clickedElement.nodeName === 'LI') {
+            if (!isTimerOn) {
+                startTimer();
+            }
 
-                moveCounter++;
-                moveElement.innerHTML = moveCounter;
+            moveCounter++;
+            moveElement.innerHTML = moveCounter;
 
-                if (lastClickedCell != null && lastClickedCell.id != clickedElement.id) {
-                    previouslyClickedCell = lastClickedCell;
-                    lastClickedCell = clickedElement;
-                    lastClickedCell.className = cardOpenClassName;
-                    lastClickedCell.className = cardOpenClassName;
-                    window.setTimeout(compareOpenCells.bind(lastClickedCell, previouslyClickedCell), 400);
-                    isInCompareCells = true;
-                }
-                else {
-                    lastClickedCell = clickedElement;
-                    lastClickedCell.className = cardOpenClassName;
-                }
+            if (lastClickedCell != null && lastClickedCell.id != clickedElement.id) {
+                previouslyClickedCell = lastClickedCell;
+                lastClickedCell = clickedElement;
+                lastClickedCell.className = cardOpenClassName;
+                lastClickedCell.className = cardOpenClassName;
+                window.setTimeout(compareOpenCells.bind(lastClickedCell, previouslyClickedCell), 400);
+                isInCompareCells = true;
+            }
+            else {
+                lastClickedCell = clickedElement;
+                lastClickedCell.className = cardOpenClassName;
             }
         }
     }
@@ -115,14 +111,14 @@ function compareOpenCells() {
                 const isGameEnd = checkGameEnd();
                 if (isGameEnd) {
                     stopCount();
-
+                    deck.removeEventListener("click", deckClicked);
                     let congratulationsMsg = `Congratulations!
 You finished the game in ${duration} seconds. Would you like to play again?`;
 
                     if (confirm(congratulationsMsg)) {
                         reset();
                     } else {
-                        isGameActive = false;
+
                     }
                 }
             }
@@ -175,9 +171,7 @@ function checkGameEnd() {
     return true;
 }
 
-
 function reset() {
-    isGameActive = true;
     stopCount();
     starsElement.innerHTML = "";
     createStars();
