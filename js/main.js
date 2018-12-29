@@ -29,8 +29,8 @@ const cardOpenClassName = "card open show";
 
 const modal = document.getElementById("myModal");
 //const modalMessageElement = document.querySelector(".modal-content");
-const modalMessageElement = document.getElementById("modalMessage");
-const modalStarsElement = document.getElementById("modalStars");
+const modalMessageElement = document.getElementById("modal-message");
+const modalStarsElement = document.getElementById("modal-stars");
 
 function createStars() {
     const fragment = document.createDocumentFragment();
@@ -118,8 +118,7 @@ function compareOpenCells() {
                 if (isGameEnd) {
                     stopTimer();
                     deck.removeEventListener("click", deckClicked);
-                    let congratulationsMsg = `Congratulations!
-                    You finished the game in ${duration} seconds. Would you like to play again?`;
+                    let congratulationsMsg = `You finished the game in ${duration} seconds. Would you like to play again?`;
                     modalMessageElement.innerHTML = congratulationsMsg;
                     modalStarsElement.innerHTML = starsElement.innerHTML;
                     modal.style.display = "block";
@@ -223,5 +222,3 @@ function playAgainClicked() {
 function closeModal() {
     modal.style.display = "none";
 }
-
-modal.style.display = "block";
