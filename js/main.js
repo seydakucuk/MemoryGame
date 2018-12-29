@@ -3,7 +3,8 @@ const moveElement = document.getElementById('move');
 let starsElement = document.getElementById('stars');
 
 const starChecks = [12, 18];
-let lastMoveCountDelta = 0;
+let lastMoveCount = 0;
+let deletedStars = 0;
 
 const cardClassNames = ['fa-diamond', 'fa-paper-plane-o', 'fa-anchor', 'fa-bolt', 'fa-cube', 'fa-leaf', 'fa-bicycle', 'fa-bomb'];
 let deckCells = [];
@@ -25,6 +26,11 @@ let duration = 0;
 
 const listItemParentClassName = 'card';
 const cardOpenClassName = "card open show";
+
+const modal = document.getElementById("myModal");
+//const modalMessageElement = document.querySelector(".modal-content");
+const modalMessageElement = document.getElementById("modalMessage");
+const modalStarsElement = document.getElementById("modalStars");
 
 function createStars() {
     const fragment = document.createDocumentFragment();
@@ -113,13 +119,10 @@ function compareOpenCells() {
                     stopTimer();
                     deck.removeEventListener("click", deckClicked);
                     let congratulationsMsg = `Congratulations!
-You finished the game in ${duration} seconds. Would you like to play again?`;
-
-                    if (confirm(congratulationsMsg)) {
-                        reset();
-                    } else {
-
-                    }
+                    You finished the game in ${duration} seconds. Would you like to play again?`;
+                    modalMessageElement.innerHTML = congratulationsMsg;
+                    modalStarsElement.innerHTML = starsElement.innerHTML;
+                    modal.style.display = "block";
                 }
             }
 
@@ -133,27 +136,30 @@ You finished the game in ${duration} seconds. Would you like to play again?`;
 }
 
 function processStars() {
-    let openCardCount = 0;
-    for (let card of deckCells) {
-        if (card.className == cardOpenClassName) {
-            openCardCount++;
-        }
-    }
-
-    if (openCardCount % 2 == 1) {
-        openCardCount--;
-    }
-
-    const delta = moveCounter - openCardCount;
-
-    for (let checkPoint of starChecks) {
-        if (delta == checkPoint && delta != lastMoveCountDelta) {
-            const firstChildElement = starsElement.firstElementChild;
-            lastMoveCountDelta = delta;
-            if (firstChildElement != null) {
-                firstChildElement.remove();
+    if (deletedStars < starChecks.length) {
+        let openCardCount = 0;
+        for (let card of deckCells) {
+            if (card.className == cardOpenClassName) {
+                openCardCount++;
             }
-            break;
+        }
+
+        if (openCardCount % 2 == 1) {
+            openCardCount--;
+        }
+
+        const delta = moveCounter - openCardCount;
+
+        for (let checkPoint of starChecks) {
+            if (delta == checkPoint && moveCounter != lastMoveCount) {
+                const firstChildElement = starsElement.firstElementChild;
+                lastMoveCount = moveCounter;
+                if (firstChildElement != null) {
+                    firstChildElement.remove();
+                }
+                deletedStars++;
+                break;
+            }
         }
     }
 }
@@ -208,3 +214,14 @@ function stopTimer() {
     }
 }
 
+function playAgainClicked() {
+    reset();
+    closeModal();
+}
+
+
+function closeModal() {
+    modal.style.display = "none";
+}
+
+modal.style.display = "block";

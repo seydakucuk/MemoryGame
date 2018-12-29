@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <title>Matching Game</title>
@@ -8,6 +9,7 @@
     <link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Coda">
     <link rel="stylesheet" href="css/app.css">
 </head>
+
 <body>
 
     <div class="container">
@@ -16,26 +18,43 @@
         </header>
 
         <section class="score-panel">
-        	<ul class="stars" id="stars">
-        	</ul>
+            <ul class="stars" id="stars">
+            </ul>
 
-        	<span class="moves" id="move">0</span> Moves
+            <span class="moves" id="move">0</span> Moves
 
-            <div class="restart" >
-                <i class="fa fa-repeat" onclick="reset()"></i>
+            <div class="restart">
+                <i class="restart-icon fa fa-repeat" onclick="reset()"></i>
             </div>
             <span id="timer" class="timer"></span>
-          
+
         </section>
 
 
-        <ul class="deck"  id="deck">
+        <ul class="deck" id="deck">
         </ul>
-      
+
     </div>
 
-    <script src="js/app.js"></script>
-    <script src="js/main.js"></script>
+    <div id="myModal" class="modal">
+        <div class="modal-content" style="padding:25px;padding-bottom:36px">
+            <div class="score-panel">
+                <ul id="modalStars" class="stars"></ul>
+            </div>
+            <div id="modalMessage">
+                <strong> Congratulations!</strong><br>
+                Would you like to play again?
+
+            </div>
+            <div style="float:right;margin:6px">
+                <input type="button" value="Yes" style="margin-left:4px" onclick="playAgainClicked()">
+                <input type="button" value="No" style="margin-left:4px"  onclick="closeModal()">
+            </div>
+        </div>
+
+        <script src="js/app.js"></script>
+        <script src="js/main.js"></script>
 
 </body>
+
 </html>
